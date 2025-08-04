@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: back-end
+spec:
+  type: ClusterIP  # Тип ClusterIP в Kubernetes для Service по умолчанию, так что его можно не указывать.
+  ports:
+    targetPort: 80  # Необходимый порт контейнера, на котором приложение ожидает трафик.
+    port: 80  # Порт, на котором Service ожидает трафик для дальнейшей пересылки в Pods.
+  selector:
+    name: myapp  # Позволяет сервису определить, на какие Pods балансировать трафик, основываясь на совпадении labels.

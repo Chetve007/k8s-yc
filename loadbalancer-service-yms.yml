@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    name: plaintext
+    targetPort: 8080
+  selector:
+    app: hello
+  loadBalancerIP: 159.161.32.22  # Заранее зарезервированный статический публичный IP-адрес. Если параметр не указан, адрес будет назначен автоматически.
+  externalTrafficPolicy: Cluster  # Политика управления трафиком.
+
+# Если указана externalTrafficPolicy: Cluster, то внешний IP-адрес клиента не будет виден. Например,
+# в access_log Nginx будет записываться внутренний IP-адрес кластера. Если указано externalTrafficPolicy: Local,
+# то будет сохраняться внешний IP-адрес клиента.
