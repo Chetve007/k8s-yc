@@ -1,0 +1,19 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: access-policy
+  namespace: policy-test
+spec:
+  podSelector:
+    matchLabels:
+      app: hello
+  policyTypes:
+  - Ingress
+  ingress:
+    - from:
+      - podSelector:
+          matchLabels:
+            run: access
+
+# Сетевые политики разрешат трафик от Pods с Kubernetes-меткой run: access к Pods с Kubernetes-меткой app: hello.
+# Метка run: access автоматически добавляется утилитой kubectl при создании ресурса и основана на его имени.
