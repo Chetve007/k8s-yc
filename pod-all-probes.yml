@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: all-probes-example
+spec:
+  containers:
+  - name: myapp
+    image: myapp:latest
+    livenessProbe:
+      httpGet:
+        path: /healthz
+        port: 8080
+      initialDelaySeconds: 3
+      periodSeconds: 3
+    readinessProbe:
+      httpGet:
+        path: /ready
+        port: 8080
+      initialDelaySeconds: 5
+      periodSeconds: 3
+    startupProbe:
+      httpGet:
+        path: /startup
+        port: 8080
+      initialDelaySeconds: 10
+      periodSeconds: 5
+      failureThreshold: 30
+
+# Этот манифест включает все три проверки для одного контейнера. Таким образом, Kubernetes сначала проверит
+# запуск контейнера с помощью Startup Probe, затем будет проверять его работоспособность с помощью Liveness Probe и
+# готовность принимать трафик с помощью Readiness Probe.

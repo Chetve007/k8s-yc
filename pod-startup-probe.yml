@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: startup-example
+spec:
+  containers:
+  - name: myapp
+    image: myapp:latest
+    startupProbe:
+      httpGet:
+        path: /startup
+        port: 8080
+      initialDelaySeconds: 10
+      periodSeconds: 5
+      failureThreshold: 30
+
+# Некоторые приложения могут требовать много времени для запуска и работоспособности.
+# Чтобы избежать преждевременных перезагрузок Pods из-за Liveness Probe, есть Startup Probe.

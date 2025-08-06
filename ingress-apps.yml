@@ -1,0 +1,33 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: main-ingress
+spec:
+  rules:
+  - host: delivery.hotdogs.ru
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: hotdog-svc
+            port:
+              number: 80
+  - host: restaurant.ru
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: booking-svc
+            port:
+              number: 80
+      - path: /delivery
+        pathType: Prefix
+        backend:
+          service:
+            name: delivery-svc
+            port:
+              number: 80

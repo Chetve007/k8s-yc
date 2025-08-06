@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: readiness-example
+spec:
+  containers:
+  - name: myapp
+    image: myapp:latest
+    readinessProbe:
+      httpGet:
+        path: /ready
+        port: 8080
+      initialDelaySeconds: 5
+      periodSeconds: 3
+
+# По умолчанию Kubernetes предполагает, что, как только контейнер создан, он готов обслуживать пользовательский трафик.
+# Но для запуска приложений может потребоваться некоторое время, а это может привести к тому, что пользователи
+# обращаются к Pod, в котором ещё фактически не запущено работающее приложение. Для решения этой проблемы есть Readiness Probe.
