@@ -41,3 +41,16 @@ kubectl exec nginx-pod -- curl -s -S -u user:password http://localhost
 Создать сервис можно и императивным путём с помощью команды.
 Здесь nginx-app — название Deployment, для которого будет создан сервис. Такой способ создания сервиса подходит для экспериментов и разработки.
 kubectl expose deployment nginx-app --port 80 --target-port=8080
+
+Helm-charts
+1. helm repo add — добавляет репозиторий с Helm-чартами. (helm repo add stable https://charts.helm.sh/stable)
+2. helm repo update — обновляет локальный кеш репозиториев с чартами.
+3. helm search repo/hub — ищет чарты в добавленном или официальном репозитории. (helm search repo mysql; helm search hub mysql)
+4. helm template — генерирует манифесты, позволяя предварительно просмотреть конфигурацию.
+5. helm list — показывает список установленных релизов.
+6. helm upgrade — обновляет установленный релиз с новыми версиями чарта или значениями.
+7. helm rollback — откатывает релиз до предыдущей версии. (helm rollback my-release 1)
+8. helm uninstall — удаляет установленный релиз из кластера.
+9. helm show values — показывает значения по умолчанию для чарта.
+10. helm package — создаёт пакет чарта из локальной директории. (helm package mychart/)
+11. helm --help - Для просмотра всех команд Helm.
