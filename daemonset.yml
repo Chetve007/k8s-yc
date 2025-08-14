@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: fluentd
+spec:
+  selector:
+    matchLabels:
+      app: fluentd
+  template:
+    metadata:
+      labels:
+        app: fluentd
+    spec:
+      nodeSelector:
+        kubernetes.io/os: linux
+      containers:
+      - name: fluentd
+        image: fluent/fluentd:latest
+        volumeMounts:
+        - name: varlog
+          mountPath: /var/log
+        - name: varlibdockercontainers
+          mountPath: /var/lib/docker/containers
+          readOnly: true
+      volumes:
+      - name: varlog
+        hostPath:
+          path: /var/log
+      - name: varlibdockercontainers
+        hostPath:
+          path: /var/lib/docker/containers
+
+
+# Этот манифест создаёт DaemonSet с именем fluentd, который развёртывает контейнер fluentd/fluentd:latest
+# на каждом узле кластера Kubernetes. Контейнер собирает логи из каталогов /var/log и /var/lib/docker/containers на узле.
+# В манифесте выше указан селектор узлов .spec.template.spec.nodeSelector. Контроллер DaemonSet будет создавать Pods
+# на узлах, которые соответствуют этому селектору узлов. Если данное поле не указано, по умолчанию контроллер DaemonSet
+# будет создавать Pods на всех узлах кластера. Подробнее о механизме назначения Pods вы узнаете далее в этом уроке.
