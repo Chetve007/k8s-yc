@@ -1,0 +1,24 @@
+# PDB с использованием minAvailable
+
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: example-pdb
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      app: example
+
+---
+# PDB с использованием maxUnavailable
+
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: example-pdb
+spec:
+  maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: example

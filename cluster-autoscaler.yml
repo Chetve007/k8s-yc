@@ -1,0 +1,53 @@
+---
+### Namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: autoscale-app
+
+---
+### Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-for-autoscale
+  namespace: autoscale-app
+  labels:
+    app: test-autoscale
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: test-autoscale
+  template:
+    metadata:
+      name: test-autoscale
+      labels:
+        app: test-autoscale
+    spec:
+      containers:
+        - name: test-autoscale
+          image: k8s.gcr.io/hpa-example
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "0.5"
+            limits:
+              memory: "500Mi"
+              cpu: "1"
+
+---
+### Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-for-autoscale
+  namespace: autoscale-app
+spec:
+  selector:
+    app: test-autoscale
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: LoadBalancer
